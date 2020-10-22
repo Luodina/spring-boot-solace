@@ -1,4 +1,4 @@
-package hkjc.jms.ewinbridge;
+package hkjc.jms.betlinetranslate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

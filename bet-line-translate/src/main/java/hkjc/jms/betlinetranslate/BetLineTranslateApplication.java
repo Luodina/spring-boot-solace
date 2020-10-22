@@ -1,4 +1,4 @@
-package hkjc.jms.ewinbridge;
+package hkjc.jms.betlinetranslate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -65,7 +65,6 @@ public class BetLineTranslateApplication {
 			public Destination resolveDestinationName(Session session, String destinationName, boolean pubSubDomain) throws JMSException, JMSException {
 				// may consider adding condition, when for topic or queue
 				//if (destinationName.contains(".topic."))
-				System.out.println("destinationResolver====" + destinationName);
 				pubSubDomain = true;
 				return super.resolveDestinationName(session, destinationName, pubSubDomain);
 			}

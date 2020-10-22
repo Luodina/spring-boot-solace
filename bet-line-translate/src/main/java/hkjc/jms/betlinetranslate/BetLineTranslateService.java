@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.util.Iterator;
 
 @Service
@@ -20,24 +22,24 @@ public class BetLineTranslateService {
     @Autowired
     private JmsTemplate jmsTemplate;
 
+    @Value("${hkjc.msg}")
+    private String statementMsg;
+
     @JmsListener(destination = "${hkjc.jms.queue.sub}", containerFactory = "queueListenerFactory")
-    public void run(Message<?> msg) throws Exception {
-        //StringBuffer msgAsStr = new StringBuffer("============= Received \nHeaders:");
-        MessageHeaders hdrs = msg.getHeaders();
-        String topicName = hdrs.get("jms_destination").toString()+"/pass";
-        logger.info("received topicName:", topicName);
-//        msgAsStr.append("\nUUID: "+hdrs.getId());
-//        msgAsStr.append("\nTimestamp: "+hdrs.getTimestamp());
-//        Iterator<String> keyIter = hdrs.keySet().iterator();
-//        while (keyIter.hasNext()) {
-//            String key = keyIter.next();
-//            msgAsStr.append("\n"+key+": "+hdrs.get(key));
-//        }
-//        msgAsStr.append("\nPayload: "+msg.getPayload());
-//        logger.info(msgAsStr.toString());
-        //this.jmsTemplate.convertAndSend("${hkjc.jms.topic.pub}", topicName);
-        logger.info("topicName: ", topicName, " has been sent" );
-        return;
+    public void run(Message msg, Session session) throws Exception {
+        TextMessage responseMessage = session.createTextMessage(statementMsg);
+        responseMessage.setJMSCorrelationID(msg.getJMSCorrelationID());
+
+        String dest=msg.getJMSDestination().toString();
+        String[] arrOfStr = dest.split("/");
+        String publishTopic = "";
+        for (int i = 0; i < (arrOfStr.length - 2); i++) {
+            publishTopic += arrOfStr[i] + "/";
+        }
+        publishTopic += "translation/pass";
+        logger.info("Bet Line Translation Service publishTopic:" + publishTopic);
+        logger.info("Bet Line Translation Service responseMessage:" + responseMessage);
+        this.jmsTemplate.convertAndSend(publishTopic, responseMessage);
     }
 
 }

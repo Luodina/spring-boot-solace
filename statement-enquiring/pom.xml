@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>hkjc.jms</groupId>
-	<artifactId>ewinbridge</artifactId>
+	<artifactId>statementenquiring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ewinbridge</name>
+	<name>statementenquiring</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -19,6 +19,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20200518</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
