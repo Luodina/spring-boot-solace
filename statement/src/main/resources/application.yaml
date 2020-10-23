@@ -1,0 +1,78 @@
+
+#custom properties for queue or topic name
+club:
+  jms:
+    queue:
+      sessionCheckPending: "sms/sessioncheckpending"
+      transReplyQueue: "sts/translation/result"
+    topic:
+      trans: "st/g/csp/trans/%s/v1/%s/%s/%s/translation/pass"    
+      trans11: "st/g/csp/trans/%s/v1/%s/%s/%s/eventinit"
+      transReplyTopic: "st/g/csp/trans/%s/v1/%s/%s/%s/result"
+ 
+ 
+ 
+    statementMsg: '{
+          "betAccount": "20019566",
+          "timestampId": 1543,
+          "containerName": "BetRequestService",
+          "containerId": 2,
+          "channelId": 7,
+          "sessionId": "012345678901234567891234",
+          "publishObject": {
+            "accountNo": 12343534,
+            "channelId": 7,
+            "sessionId": "abc123",
+            "timestampId": 11232,
+            "token": "abc123",
+            "startBusinessDate": "2020-10-12",
+            "endBusinessDate": "2020-12-11",
+            "lotteryTicket": false,
+            "racingTicket": false,
+            "footballTicket": true,
+            "noveltyTicket": false,
+            "withdrawalsTicket": false,
+            "depositsTicket": false,
+            "cancelTicket": false,
+            "payoutTicket": false,
+            "continuationKey": "keikasds123",
+            "continuationDate": "2020-10-13",
+            "transacionReply": "xyz",
+            "horseLine": 10
+          },
+          "publishTopic": "st/g/csp/trans/statement/v1/%s/%s/%s/sessioncheck/pass"
+        }'
+
+spring:
+   application:
+     name: demo
+
+
+
+# Example of directly setting frequently used Solace JMS properties:
+# (takes precedence over JMS API properties)
+# "host" parameter format: [Protocol:]Host[:Port]
+solace:
+   jms:
+     host: tcp://10.194.117.223:55555
+     msgVpn: csp_poc
+     clientUsername: tempuser
+     clientPassword: "00000000"
+
+# Example of using a Solace JMS API property:
+# For the property name refer to the constant field values for com.solacesystems.jms.SupportedProperty at
+# https://docs.solace.com/API-Developer-Online-Ref-Documentation/jms/constant-values.html
+     #apiProperties:
+         #Solace_JMS_DynamicDurables: true
+
+# Example of picking up an environment/config property:
+     #demoQueueName: tutorial/queue
+
+
+logging:
+  level:
+    com:
+      solacesystems: INFO
+
+
+

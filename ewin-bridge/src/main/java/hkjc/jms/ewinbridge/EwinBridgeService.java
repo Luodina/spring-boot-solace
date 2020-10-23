@@ -33,8 +33,8 @@ public class EwinBridgeService {
         String publishObject = jsonObjectBody.getJSONObject("publishObject").toString();
         TextMessage responseMessage = session.createTextMessage(publishObject);
         responseMessage.setJMSCorrelationID(msg.getJMSCorrelationID());
-        logger.info("Bet Line Translation Service publishTopic:" + publishTopic);
-        logger.info("Bet Line Translation Service responseMessage:" + responseMessage);
+        logger.info("Service publishTopic:" + publishTopic);
+        logger.info("Service responseMessage:" + responseMessage);
         this.jmsTemplate.convertAndSend(publishTopic, responseMessage);
     }
 
